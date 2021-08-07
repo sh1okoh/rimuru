@@ -1,10 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+import { RootState, AppThunk, ThunkApi } from '../../app/store';
 import { RoomState } from './interface';
 
 export const initialState: RoomState = {
   isLoading: true,
 }
+
+interface connectSockeRequest {
+
+}
+
+export const connectSocket = createAsyncThunk<unknown, connectSockeRequest, ThunkApii>(
+
+);
 
 export const roomSlice = createSlice({
   name: 'room',
@@ -16,5 +24,8 @@ export const roomSlice = createSlice({
         isLoading: false,
       }
     }
+  },
+  extraReducers: {
+     
   }
 })

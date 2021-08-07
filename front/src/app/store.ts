@@ -17,3 +17,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+export interface ThunkApi {
+  dispatch: typeof store.dispatch;
+  state: RootState;
+}
