@@ -6,13 +6,13 @@ export const initialState: RoomState = {
   isLoading: true,
 }
 
-interface connectSockeRequest {
+// interface connectSockeRequest {
 
-}
+// }
 
-export const connectSocket = createAsyncThunk<unknown, connectSockeRequest, ThunkApii>(
+// export const connectSocket = createAsyncThunk<unknown, connectSockeRequest, ThunkApii>(
 
-);
+// );
 
 export const roomSlice = createSlice({
   name: 'room',
