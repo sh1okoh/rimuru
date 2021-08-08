@@ -1,0 +1,7 @@
+!*.js
+!*.jsx
+!*.ts
+!*.tsx
+coverage/
+dist/
+node_modules/

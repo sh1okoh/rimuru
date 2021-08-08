@@ -1,7 +1,8 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { Action,configureStore, ThunkAction } from '@reduxjs/toolkit';
+
+import chatReducer from '../features/chat/chatSlice';
 import counterReducer from '../features/counter/counterSlice';
 import formReducer from '../features/form/formSlice';
-import chatReducer from '../features/chat/chatSlice';
 import loginReducer from '../features/login/loginSlice';
  
 export const store = configureStore({

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk, ThunkApi } from '../../app/store';
+
+import { AppThunk, RootState, ThunkApi } from '../../app/store';
 import { ChatState } from './interface';
 
 export const initialState: ChatState = {

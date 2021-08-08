@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk, ThunkApi } from '../../app/store';
-import { LoginState } from './interface';
+
+import { AppThunk, RootState, ThunkApi } from '../../app/store';
 import { httpPost } from "../../common/HttpClient";
+import { LoginState } from './interface';
 
 
 const initialState: LoginState = {
