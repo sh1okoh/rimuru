@@ -17,7 +17,7 @@ export const loginSlice = createSlice({
         ...state,
       }
     },
-    changeFormValue: (state) => {
+    changeFormValue: (state,  action: PayloadAction<LoginState>) => {
       return {
         ...state,
       }
@@ -32,7 +32,10 @@ export const loginSlice = createSlice({
   }
 });
 
-export const { changeFormValue } = loginSlice.actions;
+export const { submit, changeFormValue } = loginSlice.actions;
+
+export const selectState = (state: RootState) => state;
+
 
 export default loginSlice.reducer;
 

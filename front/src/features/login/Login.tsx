@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { LoginState } from './interface';
+import {  selectState, changeFormValue } from './loginSlice';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 
 function Copyright() {
   return (
@@ -48,6 +51,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const Login: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const { login } = useAppSelector(selectState);
+
+  const handleOnChangeForm = (key: keyof LoginState, value: any ) => {
+    const newLogin = {
+      ...login,
+      [key]: value,
+    };
+    dispatch(changeFormValue(newLogin))
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,6 +83,7 @@ export const Login: React.FC = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={ e => handleOnChangeForm('email', e.currentTarget.value) }
           />
           <TextField
             variant="outlined"
@@ -81,6 +95,8 @@ export const Login: React.FC = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={ e => handleOnChangeForm('password', e.currentTarget.value) }
+
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
