@@ -3,7 +3,8 @@ import { Form } from '../form/Form'
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { RootState } from '../../app/store';
 import socketIOClient from "socket.io-client";
-
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography'
 
 export const Room: React.FC = () => {
   const selectState = (state: RootState) => state;
@@ -15,9 +16,12 @@ export const Room: React.FC = () => {
     });
   }, []);
   return (
-    <div>
+    <Container component="main" maxWidth="xs">
+      <Typography component="h1" variant="h5">
+      Chat
+      </Typography>
       <p>{response}</p>
       <Form />
-    </div>
+    </Container>
   )
 }
