@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk,RootState } from '../../app/store';
+import { RootState } from '../../app/store';
 import { FormState } from './interface';
 
 
@@ -15,12 +15,14 @@ export const formSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    submit: (state, action: PayloadAction<FormState>) => {
+    submit: (state, action: PayloadAction<FormState>): FormState => {
+      console.log(action);
       return {
         ...state,
       }
     },
-    changeFormValue: (state, action: PayloadAction<FormState>) => {
+    changeFormValue: (state, action: PayloadAction<FormState>): FormState => {
+      console.log(action);
       return {
         ...state
       }
@@ -32,6 +34,6 @@ export const formSlice = createSlice({
 
 export const { submit, changeFormValue } = formSlice.actions
 
-export const selectState = (state: RootState) => state;
+export const selectState: (state:RootState) => RootState = (state: RootState) => state;
 
 export default formSlice.reducer;

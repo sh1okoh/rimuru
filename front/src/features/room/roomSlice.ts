@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+// import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AppThunk, RootState, ThunkApi } from '../../app/store';
+// import { AppThunk, RootState, ThunkApi } from '../../app/store';
 import { RoomState } from './interface';
 
 export const initialState: RoomState = {
