@@ -14,18 +14,18 @@ export const initialState: RoomState = {
 
 // );
 
-export const roomSlice = createSlice({
-  name: 'room',
-  initialState,
-  reducers: {
-    initialize: (state) => {
-      return {
-        ...state,
-        isLoading: false,
-      }
-    }
-  },
-  extraReducers: {
+// export const roomSlice = createSlice({
+//   name: 'room',
+//   initialState,
+//   reducers: {
+//     initialize: (state) => {
+//       return {
+//         ...state,
+//         isLoading: false,
+//       }
+//     }
+//   },
+//   extraReducers: {
      
-  }
-})
+//   }
+// })
