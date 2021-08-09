@@ -1,8 +1,9 @@
-import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { submit, changeFormValue, selectState } from './formSlice';
+import * as React from 'react';
+
+import { useAppDispatch,useAppSelector } from '../../app/hooks';
+import { changeFormValue, selectState,submit } from './formSlice';
 import { FormState } from './interface';
 
 export const Form: React.FC = () => {
