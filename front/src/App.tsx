@@ -1,15 +1,16 @@
-import { Room } from './features/room/Room';
-import { Login } from './features/login/Login';
-import { SignUp } from './features/signUp/SignUp';
-import { Chat } from './features/chat/Chat';
 import {
   BrowserRouter as Router,
-  Switch,
+  Link,
   Route,
-  Link
+  Switch
 } from "react-router-dom";
 
-function App() {
+import { Chat } from './features/chat/Chat';
+import { Login } from './features/login/Login';
+import { Room } from './features/room/Room';
+import { SignUp } from './features/signUp/SignUp';
+
+function App(): JSX.Element {
   return (
     <Router>
       <div>
