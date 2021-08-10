@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 export const Login: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-
+  console.log('hoge');
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -70,10 +70,12 @@ export const Login: React.FC = () => {
         </Typography>
         <Form<LoginState>
           onSubmit={({email, password, status}) => {
+            console.log('email', email);
+            console.log('password', password);
             dispatch(login({ email, password, status }));
           }}
-          render={() => (
-            <form className={classes.form} noValidate>
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit} className={classes.form} noValidate>
               <TextField
                 variant="outlined"
                 margin="normal"
