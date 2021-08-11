@@ -20,8 +20,10 @@ const { BAD_REQUEST, OK, UNAUTHORIZED } = StatusCodes;
  * @returns 
  */
 export async function login(req: Request, res: Response) {
+    console.log('hoge');
     // Check email and password present
     const { email, password } = req.body;
+
     if (!(email && password)) {
         return res.status(BAD_REQUEST).json({
             error: paramMissingError,
@@ -34,7 +36,7 @@ export async function login(req: Request, res: Response) {
             error: loginFailedErr,
         });
     }
-    // Check password
+
     const pwdPassed = await bcrypt.compare(password, user.pwdHash);
     if (!pwdPassed) {
         return res.status(UNAUTHORIZED).json({
@@ -42,13 +44,13 @@ export async function login(req: Request, res: Response) {
         });
     }
     // Setup Admin Cookie
-    const jwt = await jwtService.getJwt({
-        id: user.id,
-        role: user.role,
-        name: user.name,
-    });
-    const { key, options } = cookieProps;
-    res.cookie(key, jwt, options);
+    // const jwt = await jwtService.getJwt({
+    //     id: user.id,
+    //     role: user.role,
+    //     name: user.name,
+    // });
+    // const { key, options } = cookieProps;
+    // res.cookie(key, jwt, options);
     // Return
     return res.status(OK).end();
 }

@@ -23,7 +23,8 @@ export async function post<Body>(url: string, body: Record<string, any>): Promis
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    mode: 'cors',
   })
 
   
