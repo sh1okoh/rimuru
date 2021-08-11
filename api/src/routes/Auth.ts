@@ -11,16 +11,7 @@ const jwtService = new JwtService();
 const { BAD_REQUEST, OK, UNAUTHORIZED } = StatusCodes;
 
 
-
-/**
- * Login in a user.
- * 
- * @param req 
- * @param res 
- * @returns 
- */
 export async function login(req: Request, res: Response) {
-    console.log('hoge');
     // Check email and password present
     const { email, password } = req.body;
 
@@ -55,14 +46,6 @@ export async function login(req: Request, res: Response) {
     return res.status(OK).end();
 }
 
-
-/**
- * Logout the user.
- * 
- * @param req 
- * @param res 
- * @returns 
- */
 export async function logout(req: Request, res: Response) {
     const { key, options } = cookieProps;
     res.clearCookie(key, options);

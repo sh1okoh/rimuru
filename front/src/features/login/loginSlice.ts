@@ -15,14 +15,14 @@ const initialState: LoginState = {
 export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
   "login/login",
   async (request, thunkApi) => {
-    console.log(request, thunkApi);
-    const  url = 'http://localhost:3000/login';
+    console.log('request email', request.email);
+    console.log('request password', request.password);
+    const  url = 'http://localhost:3000/login_test';
     const body = {
-      email: 'hoge@example.com',
-      password: '12345',
+      email: request.email,
+      password: request.password,
     }
     post(url, body);
-    console.log('hoge');
 
     // LoginAPI.signIn(url, body, true);
     // const path = "/login";

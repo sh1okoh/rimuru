@@ -47,6 +47,12 @@ app.use((req, res, next) => {
 // Add APIs
 app.use('/api', BaseRouter);
 
+app.post('/login_test', (req, res) => {
+    res.send({
+        message: 'Hello world!'
+    });
+})
+
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

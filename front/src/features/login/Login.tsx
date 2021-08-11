@@ -14,7 +14,7 @@ import {
  } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
-import { Form } from "react-final-form";
+import { Field, Form } from "react-final-form";
 
 import { useAppDispatch } from '../../app/hooks';
 import { LoginState } from './interface';
@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
 export const Login: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  console.log('hoge');
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -70,33 +69,43 @@ export const Login: React.FC = () => {
         </Typography>
         <Form<LoginState>
           onSubmit={({email, password, status}) => {
-            console.log('email', email);
-            console.log('password', password);
             dispatch(login({ email, password, status }));
           }}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
+              <Field<string>
                 name="email"
-                autoComplete="email"
-                autoFocus
+                render={({input, meta}) => (
+                  <TextField
+                  {...input}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+                )}
               />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
+              <Field<string>
                 name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"    
+                render={({ input, meta }) => (
+                  <TextField
+                  {...input}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"    
+                />
+                )}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
