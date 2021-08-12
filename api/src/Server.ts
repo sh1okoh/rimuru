@@ -12,6 +12,7 @@ import 'express-async-errors';
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
 import { cookieProps } from '@shared/constants';
+import cors from 'cors';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -25,6 +26,11 @@ const { BAD_REQUEST } = StatusCodes;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser(cookieProps.secret));
+const options: cors.CorsOptions = {
+    origin: 'http://localhost:3001'
+  };
+app.use(cors(options));
+
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
@@ -36,22 +42,8 @@ if (process.env.NODE_ENV === 'production') {
     app.use(helmet());
 }
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization, access_token'
-    )
-});
 // Add APIs
 app.use('/api', BaseRouter);
-
-app.post('/login_test', (req, res) => {
-    res.send({
-        message: 'Hello world!'
-    });
-})
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,9 +66,12 @@ const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 
 // Login page
-app.get('/', (req: Request, res: Response) => {
-    return res.sendFile('login.html', {root: viewsDir});
-});
+// app.get('/', (req: Request, res: Response) => {
+//     return res.sendFile('login.html', {root: viewsDir});
+// });
+app.post('/login_test', (req: Request, res: Response) => {
+    return res.json({id: 1});
+})
 
 // Users page
 app.get('/users', (req: Request, res: Response) => {

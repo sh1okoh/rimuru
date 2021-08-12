@@ -35,13 +35,13 @@ export async function login(req: Request, res: Response) {
         });
     }
     // Setup Admin Cookie
-    // const jwt = await jwtService.getJwt({
-    //     id: user.id,
-    //     role: user.role,
-    //     name: user.name,
-    // });
-    // const { key, options } = cookieProps;
-    // res.cookie(key, jwt, options);
+    const jwt = await jwtService.getJwt({
+        id: user.id,
+        role: user.role,
+        name: user.name,
+    });
+    const { key, options } = cookieProps;
+    res.cookie(key, jwt, options);
     // Return
     return res.status(OK).end();
 }
