@@ -1,5 +1,4 @@
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcrypt';
 import http from 'http';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -12,13 +11,11 @@ import 'express-async-errors';
 
 import BaseRouter from './routes';
 import logger from '@shared/Logger';
-import { paramMissingError, loginFailedErr, cookieProps } from '@shared/constants';
-import UserDao from '@daos/User/UserDao.mock';
+import { cookieProps } from '@shared/constants';
 import cors from 'cors';
 
-
 const app = express();
-const { BAD_REQUEST, UNAUTHORIZED, OK } = StatusCodes;
+const { BAD_REQUEST } = StatusCodes;
 
 
 
@@ -68,30 +65,17 @@ app.set('views', viewsDir);
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
 
-app.post('/login', async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const userDao = new UserDao();
-    if (!(email && password)) {
-        return res.status(BAD_REQUEST).json({
-            error: paramMissingError,
-        });
-    }
-    const user = await userDao.getOne(email);
-    if (!user) {
-        return res.status(UNAUTHORIZED).json({
-            error: loginFailedErr,
-        });
-    }
+// Login page
+// app.get('/', (req: Request, res: Response) => {
+//     return res.sendFile('login.html', {root: viewsDir});
+// });
+// app.post('/login_test', (req: Request, res: Response) => {
+//     console.log('email', req.body.email);
+//     console.log('password', req.body.password);
+//     return res.json({id: 1});
+// })
 
-    const pwdPassed = await bcrypt.compare(password, user.pwdHash);
-    if (!pwdPassed) {
-        return res.status(UNAUTHORIZED).json({
-            error: loginFailedErr,
-        });
-    }
-
-    return res.status(OK).end();
-})
+app.post('/login', (req: Request, res: Response))
 
 // app.post('/api/auth/login')
 
