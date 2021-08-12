@@ -70,6 +70,8 @@ app.use(express.static(staticDir));
 
 app.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log('email', email);
+    console.log('password', password);
     const userDao = new UserDao();
     if (!(email && password)) {
         return res.status(BAD_REQUEST).json({
@@ -91,29 +93,27 @@ app.post('/login', async (req: Request, res: Response) => {
     }
 
     return res.status(OK).end();
-})
-
-// app.post('/api/auth/login')
+});
 
 // Users page
-app.get('/users', (req: Request, res: Response) => {
-    const jwt = req.signedCookies[cookieProps.key];
-    if (!jwt) {
-        return res.redirect('/');
-    } else {
-        return res.sendFile('users.html', {root: viewsDir});
-    }
-});
+// app.get('/users', (req: Request, res: Response) => {
+//     const jwt = req.signedCookies[cookieProps.key];
+//     if (!jwt) {
+//         return res.redirect('/');
+//     } else {
+//         return res.sendFile('users.html', {root: viewsDir});
+//     }
+// });
 
-// Chat page
-app.get('/chat', (req: Request, res: Response) => {
-    const jwt = req.signedCookies[cookieProps.key];
-    if (!jwt) {
-        return res.redirect('/');
-    } else {
-        return res.sendFile('chat.html', {root: viewsDir});
-    }
-});
+// // Chat page
+// app.get('/chat', (req: Request, res: Response) => {
+//     const jwt = req.signedCookies[cookieProps.key];
+//     if (!jwt) {
+//         return res.redirect('/');
+//     } else {
+//         return res.sendFile('chat.html', {root: viewsDir});
+//     }
+// });
 
 
 

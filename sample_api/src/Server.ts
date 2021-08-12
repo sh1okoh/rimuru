@@ -75,7 +75,7 @@ app.use(express.static(staticDir));
 //     return res.json({id: 1});
 // })
 
-app.post('/login', (req: Request, res: Response))
+// app.post('/login', (req: Request, res: Response))
 
 // app.post('/api/auth/login')
 

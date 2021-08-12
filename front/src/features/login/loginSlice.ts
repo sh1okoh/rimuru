@@ -17,7 +17,7 @@ export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
   async (request, thunkApi) => {
     console.log('request email', request.email);
     console.log('request password', request.password);
-    const  url = 'http://localhost:3000/api/login';
+    const  url = 'http://localhost:3000/login';
     const body = {
       email: request.email,
       password: request.password,
