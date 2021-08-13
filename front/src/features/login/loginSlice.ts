@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState, ThunkApi } from '../../app/store';
-import { post } from "../../common/HttpClient";
+import { httpPost } from "../../common/HttpClient";
 import { LoginState } from './interface';
 // import { LoginAPI } from './loginAPI';
 
@@ -15,14 +15,15 @@ const initialState: LoginState = {
 export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
   "login/login",
   async (request, thunkApi) => {
-    console.log('request email', request.email);
-    console.log('request password', request.password);
     const  url = 'http://localhost:3000/login';
     const body = {
       email: request.email,
       password: request.password,
     }
-    post(url, body);
+    const response = httpPost(url, body);
+    console.log('thukAPI');
+    console.log('response',response);
+    // thunkApi.dispatch(redirectto('/room'));
 
     // LoginAPI.signIn(url, body, true);
     // const path = "/login";
@@ -31,7 +32,7 @@ export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
     // thunkApi.dispatch(redirectTo("/home"));
     // thunkApi.dispatch(resetMessage());
 
-    // return response;
+    return response;
   },
 );
 
@@ -44,6 +45,9 @@ export const loginSlice = createSlice({
         ...state,
       }
     },
+    isLogin: (state) => {
+      
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state,  action) => {
