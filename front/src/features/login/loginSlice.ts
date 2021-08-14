@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState, ThunkApi } from '../../app/store';
+// import { signIn } from './loginAPI';
+import { httpPost } from '../../common/httpClient';
 import { redirectTo } from '../../routerSlice';
 import { LoginState } from './interface';
-import { signIn } from './loginAPI';
 
 
 const initialState: LoginState = {
@@ -12,15 +13,20 @@ const initialState: LoginState = {
   status: 'idle', 
 }
 
-export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
+interface LoginRequest {
+  email: string,
+  password: string,
+}
+
+export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
   "login/login",
   async (request, thunkApi) => {
-    const  url = 'http://localhost:3000/login';
+    const path = 'login';
     const body = {
       email: request.email,
       password: request.password,
     }
-    const response = signIn(url, body);
+    const response = httpPost(path, body, thunkApi);
     thunkApi.dispatch(redirectTo('/room'));
 
     // LoginAPI.signIn(url, body, true);
@@ -35,18 +41,9 @@ export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
 );
 
 export const loginSlice = createSlice({
-  name: 'chat',
+  name: 'login',
   initialState,
-  reducers: {
-    initialize: (state) => {
-      return {
-        ...state,
-      }
-    },
-    isLogin: (state) => {
-      
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state,  action) => {
       console.log(action);

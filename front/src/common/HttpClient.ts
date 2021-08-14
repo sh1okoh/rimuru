@@ -1,5 +1,6 @@
 import { ThunkApi } from "../app/store";
-import { validateUrl } from "./validateUri"
+import { setMessage } from "../messagesSlice";
+import { redirectTo } from "../routerSlice"
 
 const basePath = process.env.REACT_APP_STAGE === 'production'
   ? "http://localhost:3000/"
@@ -7,29 +8,43 @@ const basePath = process.env.REACT_APP_STAGE === 'production'
   ? "http://localhost:3000/"
   : "http://localhost:3000/";
 
-// async function fetchWithErrorHandling(
-//   input: RequestInfo,
-//   thunkApi: ThunkApi,
-//   init?: RequestInit,
-// ) {
-//   return await fetch(input, init).then((response) => console.log('response', response));
-// }
+const baseHeader = {
+  "Content-Type": "application/json",
+  accept: "application/json",
+};
 
-export async function httpPost<Body>(url: string, body: Record<string, any>): Promise<any> {
-  const validUrl = validateUrl(url) ? url : '';
+async function fetchWithErrorHandler(
+  input: RequestInfo,
+  thunkApi: ThunkApi,
+  init?: RequestInit,
+) {
+  return await fetch(input, init).then((response) => handleErrorResponse(response, thunkApi));
+}
 
-  const response  = await fetch(validUrl, {
+export async function httpPost(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<Body> {
+  const url = new URL(basePath+path);
+  const response  = await fetchWithErrorHandler(url.toString(), thunkApi, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: baseHeader,
     body: JSON.stringify(body),
     mode: 'cors',
   })
   return response;
 }
 
-function handleError(response: Response, thunkApi: ThunkApi) {
+export async function httpGet(url: string, params: Record<string, any> = {}, thunkApi: ThunkApi): Promise<Body> {
+  const path = new URL(url);
+  path.search = new URLSearchParams(params).toString();
+  const response  = await fetchWithErrorHandler(path.toString(), thunkApi, {
+    method: 'GET',
+    headers: baseHeader,
+    mode: 'cors',
+  })
+
+  return response;
+}
+
+function handleErrorResponse(response: Response, thunkApi: ThunkApi) {
   if (response.ok) {
     return response;
   }
@@ -44,19 +59,19 @@ function handleError(response: Response, thunkApi: ThunkApi) {
 
     case 401:
       thunkApi.dispatch(
-        setMessage("認証に失敗しました。ログインし直してください。"),
+        setMessage("メールアドレスかパスワードが間違っています。"),
       );
       thunkApi.dispatch(redirectTo("/login"));
 
       throw Error("UNAUTHORIZED");
     case 404:
-      thunkApi.dispatch(setMessage("リソースを発見できませんでした。"));
+      thunkApi.dispatch(setMessage("不正なリクエストです"));
 
       throw Error("NOT_FOUND");
     case 500:
       thunkApi.dispatch(
         setMessage(
-          "サーバー上でエラーが発生しました。ブラウザをリロードしても直らない場合、開発チームにお問い合わせください。",
+          "サーバーでエラーが発生しました。",
         ),
       );
 
@@ -64,7 +79,7 @@ function handleError(response: Response, thunkApi: ThunkApi) {
     default:
       thunkApi.dispatch(
         setMessage(
-          "不明なエラーが発生しました。ブラウザをリロードしても直らない場合、開発チームにお問い合わせください。",
+          "不明なエラーが発生しました。",
         ),
       );
 
