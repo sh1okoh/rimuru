@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState, ThunkApi } from '../../app/store';
 import { httpPost } from "../../common/HttpClient";
+import { redirectTo } from '../../routerSlice';
 import { LoginState } from './interface';
-// import { LoginAPI } from './loginAPI';
 
 
 const initialState: LoginState = {
@@ -21,9 +21,7 @@ export const login = createAsyncThunk<unknown, LoginState, ThunkApi>(
       password: request.password,
     }
     const response = httpPost(url, body);
-    console.log('thukAPI');
-    console.log('response',response);
-    // thunkApi.dispatch(redirectto('/room'));
+    thunkApi.dispatch(redirectTo('/room'));
 
     // LoginAPI.signIn(url, body, true);
     // const path = "/login";
