@@ -63,15 +63,13 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
  *                              Serve front-end content
  ***********************************************************************************/
 
-const viewsDir = path.join(__dirname, 'views');
-app.set('views', viewsDir);
-const staticDir = path.join(__dirname, 'public');
-app.use(express.static(staticDir));
+// const viewsDir = path.join(__dirname, 'views');
+// app.set('views', viewsDir);
+// const staticDir = path.join(__dirname, 'public');
+// app.use(express.static(staticDir));
 
 app.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    console.log('email', email);
-    console.log('password', password);
     const userDao = new UserDao();
     if (!(email && password)) {
         return res.status(BAD_REQUEST).json({
@@ -91,7 +89,6 @@ app.post('/login', async (req: Request, res: Response) => {
             error: loginFailedErr,
         });
     }
-
     return res.status(OK).end();
 });
 
