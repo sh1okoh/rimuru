@@ -5,3 +5,5 @@
 //   const response: Promise<Response> = httpPost(url, body, thunkApi);
 //   return response;
 // }
+
+export {}

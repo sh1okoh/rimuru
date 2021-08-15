@@ -68,8 +68,8 @@ export const Login: React.FC = () => {
           Sign in
         </Typography>
         <Form<LoginState>
-          onSubmit={({email, password, status}) => {
-            dispatch(login({ email, password, status }));
+          onSubmit={({email, password}) => {
+            dispatch(login({ email, password}));
           }}
           render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className={classes.form} noValidate>

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { RootState, ThunkApi } from '../../app/store';
-// import { signIn } from './loginAPI';
 import { httpPost } from '../../common/httpClient';
 import { redirectTo } from '../../routerSlice';
 import { LoginState } from './interface';
@@ -19,7 +18,7 @@ interface LoginRequest {
 }
 
 export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
-  "login/login",
+  "login",
   async (request: LoginRequest, thunkApi) => {
     const path = 'login';
     const body = {
@@ -27,13 +26,7 @@ export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
       password: request.password,
     }
     const response = httpPost(path, body, thunkApi);
-    thunkApi.dispatch(redirectTo('/room'));
-
-    // LoginAPI.signIn(url, body, true);
-    // const path = "/login";
-    // await thunkApi.dispatch(fetchCsrfToken());
-    // const response = await httpPost<unknown>(path, request, thunkApi);
-    // thunkApi.dispatch(redirectTo("/home"));
+    thunkApi.dispatch(redirectTo('/room'))
     // thunkApi.dispatch(resetMessage());
 
     return response;

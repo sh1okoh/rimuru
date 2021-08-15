@@ -4,6 +4,7 @@ import chatReducer from '../features/chat/chatSlice';
 import counterReducer from '../features/counter/counterSlice';
 import formReducer from '../features/form/formSlice';
 import loginReducer from '../features/login/loginSlice';
+import { messagesReducer } from '../messagesSlice';
  
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     form: formReducer,
     chat: chatReducer,
     login: loginReducer,
+    messages: messagesReducer
   },
 });
 

@@ -1,4 +1,3 @@
-import { ThunkApi } from "../app/store";
 import { setMessage } from "../messagesSlice";
 import { redirectTo } from "../routerSlice"
 
@@ -65,7 +64,7 @@ function handleErrorResponse(response: Response, thunkApi: ThunkApi) {
 
     case 401:
       thunkApi.dispatch(
-        setMessage("メールアドレスかパスワードが間違っています。"),
+        setMessage("メールアドレスかパスワードが間違っています"),
       );
       thunkApi.dispatch(redirectTo("/login"));
 
@@ -77,7 +76,7 @@ function handleErrorResponse(response: Response, thunkApi: ThunkApi) {
     case 500:
       thunkApi.dispatch(
         setMessage(
-          "サーバーでエラーが発生しました。",
+          "サーバーでエラーが発生しました",
         ),
       );
 
@@ -85,7 +84,7 @@ function handleErrorResponse(response: Response, thunkApi: ThunkApi) {
     default:
       thunkApi.dispatch(
         setMessage(
-          "不明なエラーが発生しました。",
+          "不明なエラーが発生しました",
         ),
       );
 
