@@ -20,7 +20,7 @@ interface LoginRequest {
 
 export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
   "login/login",
-  async (request, thunkApi) => {
+  async (request: LoginRequest, thunkApi) => {
     const path = 'login';
     const body = {
       email: request.email,

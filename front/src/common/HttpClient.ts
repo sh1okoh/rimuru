@@ -13,6 +13,12 @@ const baseHeader = {
   accept: "application/json",
 };
 
+interface ThunkApi {
+  getState: () => any;
+  dispatch: (action: any) => any;
+  rejectWithValue: (value: unknown) => any;
+}
+
 async function fetchWithErrorHandler(
   input: RequestInfo,
   thunkApi: ThunkApi,
