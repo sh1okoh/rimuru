@@ -27,5 +27,5 @@ chatRouter.post('/emit-message', emitMessage);
 const baseRouter = Router();
 baseRouter.use('/auth', authRouter);
 baseRouter.use('/users', authMw, userRouter);
-baseRouter.use('/chat', authMw, chatRouter)
+// baseRouter.use('/chat', authMw, chatRouter)
 export default baseRouter;

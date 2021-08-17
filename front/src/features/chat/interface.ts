@@ -1,3 +1,3 @@
 export interface ChatState {
-  isLoading: boolean,
+  status: 'loading' | 'succeeded' | 'failed' | 'idle',
 };

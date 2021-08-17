@@ -113,19 +113,30 @@ app.post('/login', async (req: Request, res: Response) => {
 // });
 
 
-
 /************************************************************************************
  *                                   Setup Socket.io
  * Tutorial used for this: https://www.valentinog.com/blog/socket-react/
  ***********************************************************************************/
 
 const server = http.createServer(app);
-const io = new SocketIo(server);
-
-io.sockets.on('connect', () => {
-    return app.set('socketio', io);
+const io = new SocketIo(server, {
+    cors: {
+        origin: "http://localhost:3001",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
+    }   
 });
 
+io.sockets.on('connect', (socket) => {
+    getApiAndEmit(socket);
+});
+
+const getApiAndEmit = (socket: any) => {
+    const response = new Date();
+    console.log('response', response);
+    socket.emit("FromAPI", response);
+};
 
 
 /************************************************************************************
