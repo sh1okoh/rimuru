@@ -18,8 +18,8 @@ export const chat = createAsyncThunk<unknown, unknown, ThunkApi>(
         "my-custom-header": "abcd"
       }
     });
-    socket.on('connection', (data) => {
-      console.log('data', data);
+    socket.on('connect', () => {
+      console.log('connect!');
     })
   },
 );
