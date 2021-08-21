@@ -2,7 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Server as SocketIo } from 'socket.io';
 import StatusCodes from 'http-status-codes';
-import  { cookieProps } from './shared/constants';
+import  { cookieProps, corsProps } from './shared/constants';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
@@ -33,12 +33,7 @@ app.use(cors(options));
 app.listen(8080);
 const server = http.createServer(app);
 const io = new SocketIo(server, {
-  cors: {
-      origin: "http://localhost:3001",
-      methods: ["GET", "POST"],
-      allowedHeaders: ["my-custom-header"],
-      credentials: true
-  }   
+  cors: { ...corsProps }
 });
 
 io.sockets.on('connect', (socket) => {

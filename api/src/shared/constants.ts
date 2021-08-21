@@ -10,3 +10,21 @@ export const cookieProps = Object.freeze({
       secure: (process.env.SECURE_COOKIE === 'true'),
   },
 });
+
+export const corsProps = () => {
+  const origin: string = (() => {
+    if (process.env.NODE_ENV === 'development') {
+      return 'http://localhost:3001';
+    }
+    if (process.env.NODE_ENV === 'production') {
+      return 'http://localhost:3001'; // TODO: produtionに直す
+    }
+    return 'hoge';
+  })();
+  return {
+      origin,
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+  }
+}
