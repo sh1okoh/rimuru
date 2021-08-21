@@ -11,7 +11,7 @@ export const cookieProps = Object.freeze({
   },
 });
 
-export const corsProps = () => {
+export const corsPropsForSocketIO = () => {
   const origin: string = (() => {
     if (process.env.NODE_ENV === 'development') {
       return 'http://localhost:3001';
