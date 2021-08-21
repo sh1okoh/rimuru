@@ -1,11 +1,11 @@
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography'
 import React, { useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import socketClient  from "socket.io-client";
 
 import { Form } from '../form/Form'
-import { chatConnect, chatFetchSpreadMessage } from './chatSlice';
+import { chatConnect, chatFetchSpreadMessage, selectChat } from './chatSlice';
 
 
 export const Chat: React.FC = () => {
@@ -20,10 +20,15 @@ export const Chat: React.FC = () => {
     dispatch(chatConnect(socket));
     dispatch(chatFetchSpreadMessage(socket));
   })
+  const { message } = useSelector(selectChat);
+
   return (
     <Container component="main" maxWidth="xs">
       <Typography component="h1" variant="h5">
-      Chat
+      <h1>Chat</h1>
+      <div>
+        <p>{message}</p>
+      </div>
       </Typography>
       <Form />
     </Container>

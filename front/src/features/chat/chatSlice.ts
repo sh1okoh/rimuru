@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Socket }  from "socket.io-client";
 
-import { ThunkApi } from '../../app/store'; 
+import type { RootState, ThunkApi } from '../../app/store'; 
 import { ChatState } from './interface';
+
 
 export const initialState: ChatState = {
   message: '',
@@ -12,17 +13,16 @@ export const initialState: ChatState = {
 export const chatConnect = createAsyncThunk<unknown, Socket, ThunkApi>(
   "chat/connect",
   async (socket: Socket, thunkApi) => {
-    socket.on('connect', () => {
-      socket.emit('hoge', 'foo!!!!!');
-    })
+    socket.on('connect', () => {});
   },
 );
 
+
+// NOTE: サーバーで無限にメッセージ飛ばしてるのがいけないかも -> 無限ループ
 export const chatFetchSpreadMessage = createAsyncThunk<unknown, Socket, ThunkApi>(
   "chat/fetchSpreadMessage",
   async (socket: Socket, thunkApi) => {
     socket.on('spread message', (message) => {
-      console.log('spread message :', message);
       thunkApi.dispatch(fetchMessagesFullfilled(message));
     })
   }
@@ -69,5 +69,7 @@ export const chatSlice = createSlice({
 })
 
 const { fetchMessagesFullfilled } = chatSlice.actions
+
+export const selectChat = (state: RootState): ChatState => state.chat;
 
 export default chatSlice.reducer;
