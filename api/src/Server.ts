@@ -6,6 +6,7 @@ import  { cookieProps } from './shared/constants';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
+import http from 'http';
 const app = express();
 const { BAD_REQUEST, UNAUTHORIZED, OK } = StatusCodes;
 
@@ -29,13 +30,19 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(cors(options));
 
-
-
-
 app.listen(8080);
 const server = http.createServer(app);
 const io = new SocketIo(server, {
-}
+  cors: {
+      origin: "http://localhost:3001",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+  }   
+});
+
+io.sockets.on('connect', (socket) => {
+  console.log(socket);
 });
 
 export default server

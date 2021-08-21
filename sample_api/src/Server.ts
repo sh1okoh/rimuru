@@ -99,8 +99,6 @@ app.get('/chat', (req: Request, res: Response) => {
     }
 });
 
-
-
 /************************************************************************************
  *                                   Setup Socket.io
  * Tutorial used for this: https://www.valentinog.com/blog/socket-react/
