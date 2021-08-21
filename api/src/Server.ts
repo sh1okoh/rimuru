@@ -21,8 +21,7 @@ if (process.env.NODE_ENV === 'development') {
   };
   app.use(cors(options));
   app.use(morgan('dev'));
-}
-if (process.env.NODE_ENV === 'production') {
+} else if (process.env.NODE_ENV === 'production') {
   options  = {
     origin: 'http://localhost:3001' // TODO: production用にする
   }
@@ -30,7 +29,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(cors(options));
 
-app.listen(8080);
 const server = http.createServer(app);
 const io = new SocketIo(server, {
   cors: { ...corsPropsForSocketIO }
