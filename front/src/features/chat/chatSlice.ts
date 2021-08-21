@@ -5,6 +5,7 @@ import { ThunkApi } from '../../app/store';
 import { ChatState } from './interface';
 
 export const initialState: ChatState = {
+  message: '',
   status: 'idle',
 }
 
@@ -22,6 +23,7 @@ export const chatFetchSpreadMessage = createAsyncThunk<unknown, Socket, ThunkApi
   async (socket: Socket, thunkApi) => {
     socket.on('spread message', (message) => {
       console.log('spread message :', message);
+      thunkApi.dispatch(fetchMessagesFullfilled(message));
     })
   }
 )
@@ -30,8 +32,13 @@ export const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    leave: (state) => {
-      return state;
+    fetchMessagesFullfilled: (state, action) => {
+      const newState = {
+        ...state,
+        message: action.payload
+      }
+      console.log('newState', newState);
+      return newState;
     }
   },
   extraReducers: (builder) => {
@@ -60,5 +67,7 @@ export const chatSlice = createSlice({
     });
   }
 })
+
+const { fetchMessagesFullfilled } = chatSlice.actions
 
 export default chatSlice.reducer;
