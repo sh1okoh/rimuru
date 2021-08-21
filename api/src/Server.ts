@@ -1,146 +1,41 @@
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcrypt';
-import http from 'http';
-import helmet from 'helmet';
-import morgan from 'morgan';
-import path from 'path';
+import express from 'express';
 import { Server as SocketIo } from 'socket.io';
 import StatusCodes from 'http-status-codes';
-import express, { NextFunction, Request, Response } from 'express';
-
-import 'express-async-errors';
-
-import BaseRouter from './routes';
-import logger from '@shared/Logger';
-import { paramMissingError, loginFailedErr, cookieProps } from '@shared/constants';
-import UserDao from '@daos/User/UserDao.mock';
+import  { cookieProps } from './shared/constants';
 import cors from 'cors';
-
-
+import morgan from 'morgan';
+import helmet from 'helmet';
 const app = express();
 const { BAD_REQUEST, UNAUTHORIZED, OK } = StatusCodes;
 
-
-
-/************************************************************************************
- *                              Set basic express settings
- ***********************************************************************************/
-
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(cookieProps.secret));
-const options: cors.CorsOptions = {
+
+let options: cors.CorsOptions = {};
+if (process.env.NODE_ENV === 'development') {
+  options = {
     origin: 'http://localhost:3001'
   };
+  app.use(cors(options));
+  app.use(morgan('dev'));
+}
+if (process.env.NODE_ENV === 'production') {
+  options  = {
+    origin: 'http://localhost:3001' // TODO: production用にする
+  }
+  app.use(helmet());
+}
 app.use(cors(options));
 
 
-// Show routes called in console during development
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
-
-// Security
-if (process.env.NODE_ENV === 'production') {
-    app.use(helmet());
-}
-
-// Add APIs
-app.use('/api', BaseRouter);
-
-// Print API errors
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    logger.err(err, true);
-    return res.status(BAD_REQUEST).json({
-        error: err.message,
-    });
-});
 
 
-
-/************************************************************************************
- *                              Serve front-end content
- ***********************************************************************************/
-
-// const viewsDir = path.join(__dirname, 'views');
-// app.set('views', viewsDir);
-// const staticDir = path.join(__dirname, 'public');
-// app.use(express.static(staticDir));
-
-app.post('/login', async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const userDao = new UserDao();
-    if (!(email && password)) {
-        return res.status(BAD_REQUEST).json({
-            error: paramMissingError,
-        });
-    }
-    const user = await userDao.getOne(email);
-    if (!user) {
-        return res.status(UNAUTHORIZED).json({
-            error: loginFailedErr,
-        });
-    }
-
-    const pwdPassed = await bcrypt.compare(password, user.pwdHash);
-    if (!pwdPassed) {
-        return res.status(UNAUTHORIZED).json({
-            error: loginFailedErr,
-        });
-    }
-    return res.status(OK).end();
-});
-
-// Users page
-// app.get('/users', (req: Request, res: Response) => {
-//     const jwt = req.signedCookies[cookieProps.key];
-//     if (!jwt) {
-//         return res.redirect('/');
-//     } else {
-//         return res.sendFile('users.html', {root: viewsDir});
-//     }
-// });
-
-// // Chat page
-// app.get('/chat', (req: Request, res: Response) => {
-//     const jwt = req.signedCookies[cookieProps.key];
-//     if (!jwt) {
-//         return res.redirect('/');
-//     } else {
-//         return res.sendFile('chat.html', {root: viewsDir});
-//     }
-// });
-
-
-/************************************************************************************
- *                                   Setup Socket.io
- * Tutorial used for this: https://www.valentinog.com/blog/socket-react/
- ***********************************************************************************/
-
+app.listen(8080);
 const server = http.createServer(app);
 const io = new SocketIo(server, {
-    cors: {
-        origin: "http://localhost:3001",
-        methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
-        credentials: true
-    }   
+}
 });
 
-io.sockets.on('connect', (socket) => {
-    getApiAndEmit(socket);
-});
-
-const getApiAndEmit = (socket: any) => {
-    const response = new Date();
-    console.log('response', response);
-    socket.emit("FromAPI", response);
-};
-
-
-/************************************************************************************
- *                              Export Server
- ***********************************************************************************/
-
-export default server;
+export default server

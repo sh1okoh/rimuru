@@ -19,7 +19,7 @@ export const chat = createAsyncThunk<unknown, unknown, ThunkApi>(
       }
     });
     socket.on('connect', () => {
-      console.log('connect!');
+      console.log('connect!', socket.connected);
     })
   },
 );
