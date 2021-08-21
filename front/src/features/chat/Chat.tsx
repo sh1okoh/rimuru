@@ -2,14 +2,23 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography'
 import React, { useEffect } from 'react';
 import { useDispatch } from "react-redux";
+import socketClient  from "socket.io-client";
 
 import { Form } from '../form/Form'
-import { chat } from './chatSlice';
+import { chatConnect, chatFetchSpreadMessage } from './chatSlice';
+
 
 export const Chat: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(chat({}));
+    const socket = socketClient('http://localhost:3000', {
+      withCredentials: true,
+      extraHeaders: {
+        "my-custom-header": "abcd"
+      }
+    });
+    dispatch(chatConnect(socket));
+    dispatch(chatFetchSpreadMessage(socket));
   })
   return (
     <Container component="main" maxWidth="xs">

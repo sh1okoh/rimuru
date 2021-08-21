@@ -1,5 +1,5 @@
-import { createAsyncThunk,createSlice  } from '@reduxjs/toolkit';
-import socketClient  from "socket.io-client";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Socket }  from "socket.io-client";
 
 import { ThunkApi } from '../../app/store'; 
 import { ChatState } from './interface';
@@ -8,21 +8,23 @@ export const initialState: ChatState = {
   status: 'idle',
 }
 
-export const chat = createAsyncThunk<unknown, unknown, ThunkApi>(
-  "chat",
-  async (request: unknown, thunkApi) => {
-    const socket = socketClient('http://localhost:3000', {
-      withCredentials: true,
-      extraHeaders: {
-        "my-custom-header": "abcd"
-      }
-    });
+export const chatConnect = createAsyncThunk<unknown, Socket, ThunkApi>(
+  "chat/connect",
+  async (socket: Socket, thunkApi) => {
     socket.on('connect', () => {
       socket.emit('hoge', 'foo!!!!!');
-      console.log('connect!', socket.connected);
     })
   },
 );
+
+export const chatFetchSpreadMessage = createAsyncThunk<unknown, Socket, ThunkApi>(
+  "chat/fetchSpreadMessage",
+  async (socket: Socket, thunkApi) => {
+    socket.on('spread message', (message) => {
+      console.log('spread message :', message);
+    })
+  }
+)
 
 export const chatSlice = createSlice({
   name: 'chat',
@@ -33,18 +35,29 @@ export const chatSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(chat.pending, (state,  action) => {
-      console.log(action);
+    builder.addCase(chatConnect.pending, (state,  action) => {
       state.status = 'loading';
     });
-    builder.addCase(chat.fulfilled, (state, action) => {
+    builder.addCase(chatConnect.fulfilled, (state, action) => {
       console.log(action);
       state.status = 'succeeded';
     })
-    builder.addCase(chat.rejected, (state, action) => {
+    builder.addCase(chatConnect.rejected, (state, action) => {
       console.log(action);
       state.status = 'failed';
-    })
+    });
+    builder.addCase(chatFetchSpreadMessage.pending, (state, action) => {
+      console.log('state', state);
+      console.log('action', action);
+    });
+    builder.addCase(chatFetchSpreadMessage.fulfilled, (state, action) => {
+      console.log('state', state);
+      console.log('action', action);
+    });
+    builder.addCase(chatFetchSpreadMessage.rejected, (state, action) => {
+      console.log('state', state);
+      console.log('action', action);
+    });
   }
 })
 
