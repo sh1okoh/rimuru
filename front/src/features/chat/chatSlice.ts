@@ -48,6 +48,4 @@ export const chatSlice = createSlice({
   }
 })
 
-// export const {  } = chatSlice.actions;
-
 export default chatSlice.reducer;
