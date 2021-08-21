@@ -35,7 +35,11 @@ const io = new SocketIo(server, {
 });
 
 io.sockets.on('connect', (socket) => {
-  console.log(socket.data);
+  console.log('connect!!');
+
+  socket.on('hoge', (message) => {
+    console.log('hoge', message);
+  })
 });
 
 export default server

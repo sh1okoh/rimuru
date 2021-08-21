@@ -1,4 +1,3 @@
-import { statement } from '@babel/template';
 import { createAsyncThunk,createSlice  } from '@reduxjs/toolkit';
 import socketClient  from "socket.io-client";
 
@@ -19,6 +18,7 @@ export const chat = createAsyncThunk<unknown, unknown, ThunkApi>(
       }
     });
     socket.on('connect', () => {
+      socket.emit('hoge', 'foo!!!!!');
       console.log('connect!', socket.connected);
     })
   },
