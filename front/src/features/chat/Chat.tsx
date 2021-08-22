@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography'
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import socketClient  from "socket.io-client";
+import socketClient, { Socket }  from "socket.io-client";
 
 import { changeFormValue,chatConnect, chatFetchSpreadMessage, selectChat, sendMessage } from './chatSlice';
 import { ChatState } from './interface';
@@ -13,7 +13,7 @@ import { ChatState } from './interface';
 export const Chat: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const socket = socketClient('http://localhost:3000', {
+    const socket: Socket = socketClient('http://localhost:3000', {
       withCredentials: true,
       extraHeaders: {
         "my-custom-header": "abcd"

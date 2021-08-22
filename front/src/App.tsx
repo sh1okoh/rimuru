@@ -9,8 +9,10 @@ import { Chat } from './features/chat/Chat';
 import { Login } from './features/login/Login';
 import { Room } from './features/room/Room';
 import { SignUp } from './features/signUp/SignUp';
+import { useGetPokemonByNameQuery } from './services/pockemon';
 
 function App(): JSX.Element {
+  console.log(useGetPokemonByNameQuery('hoge'));
   return (
     <Router>
       <div>
