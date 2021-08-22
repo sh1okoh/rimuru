@@ -1,4 +1,6 @@
 export interface ChatState {
-  message: string;
+  form: {
+    message: string;
+  },
   status: 'loading' | 'succeeded' | 'failed' | 'idle',
 };

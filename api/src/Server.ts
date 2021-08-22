@@ -38,7 +38,6 @@ io.sockets.on('connect', (socket) => {
   console.log('connect!!');
 
   socket.on('hoge', (message) => {
-    console.log('hoge', message);
     io.emit('spread message', message);
   })
 });
