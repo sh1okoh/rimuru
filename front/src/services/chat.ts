@@ -20,6 +20,7 @@ export const chatApi = createApi({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
         const socket = socketClient('http://localhost:3000');
+        console.log('arg', arg);
         try {
           await cacheDataLoaded
           console.log('hoge');
@@ -43,4 +44,4 @@ export const chatApi = createApi({
   })
 });
 
-export const { useGetMessagesQuery } = api;
+export const { useGetMessagesQuery } = chatApi;

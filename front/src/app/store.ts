@@ -5,6 +5,7 @@ import counterReducer from '../features/counter/counterSlice';
 import formReducer from '../features/form/formSlice';
 import loginReducer from '../features/login/loginSlice';
 import { messagesReducer } from '../messagesSlice';
+import { chatApi } from '../services/chat';
  
 export const store = configureStore({
   reducer: {
@@ -12,8 +13,11 @@ export const store = configureStore({
     form: formReducer,
     chat: chatReducer,
     login: loginReducer,
-    messages: messagesReducer
+    messages: messagesReducer,
+    [chatApi.reducerPath]: chatApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware().concat(chatApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
