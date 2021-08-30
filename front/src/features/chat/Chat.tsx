@@ -3,14 +3,12 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography'
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import socketClient, { Socket } from 'socket.io-client';
 
-import { changeFormValue, chatConnect, chatFetchSpreadMessage,selectChat  } from './chatSlice';
-import { ChatState } from './interface';
+import { selectChat  } from './chatSlice';
 
 export const Chat: React.FC = () => {
-  const dispatch = useDispatch();
   const [message, setMessage] = useState('');
   const [socket, setSocket] = useState(socketClient(''));
   useEffect(() => {
@@ -20,26 +18,25 @@ export const Chat: React.FC = () => {
         "my-custom-header": "abcd"
       }
     });
-    dispatch(chatConnect(socket));
-    dispatch(chatFetchSpreadMessage(socket));
     setSocket(socket);
   }, []);
+
+  const sendMessage = () => {
+    socket.emit('sendMessage', message);
+  }
+
   const { form } = useSelector(selectChat);
-  const handleOnChangeForm = (key: keyof ChatState['form'], value: any ) => {
-    const newForm = {
-      ...form,
-      [key]: value,
-    };
-    dispatch(changeFormValue(newForm))
+  const handleOnChangeForm = (value: any) => {
+    setMessage(value);
   };
 
   const submitOnForm = () => {
+    sendMessage();
   }
 
   return (
     <Container component="main" maxWidth="xs">
       <Typography component="h1" variant="h5">
-      <h1>Chat</h1>
       <div>
         <p>{form.message}</p>
       </div>
@@ -50,9 +47,9 @@ export const Chat: React.FC = () => {
           id="standard-text"
           label="メッセージを入力"
           name="message"
-          onChange={ e => handleOnChangeForm('message', e.currentTarget.value)}
+          onChange={ e => handleOnChangeForm(e.target.value)}
         />
-        <Button variant="contained" color="primary" onClick={(e) => submitOnForm()}>
+        <Button variant="contained" color="primary" onClick={() => submitOnForm()}>
           送信
         </Button>
       </form>
