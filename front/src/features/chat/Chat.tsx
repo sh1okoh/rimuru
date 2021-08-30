@@ -11,6 +11,7 @@ import { selectChat  } from './chatSlice';
 export const Chat: React.FC = () => {
   const [message, setMessage] = useState('');
   const [socket, setSocket] = useState(socketClient(''));
+  const [responseMessage, setResponseMessage] = useState('');
   useEffect(() => {
     const socket: Socket = socketClient('http://localhost:3000', {
       withCredentials: true,
@@ -19,13 +20,16 @@ export const Chat: React.FC = () => {
       }
     });
     setSocket(socket);
+
+    socket.on('response message', data => {
+      setResponseMessage(data);
+    })
   }, []);
 
   const sendMessage = () => {
     socket.emit('sendMessage', message);
   }
 
-  const { form } = useSelector(selectChat);
   const handleOnChangeForm = (value: any) => {
     setMessage(value);
   };
@@ -38,7 +42,7 @@ export const Chat: React.FC = () => {
     <Container component="main" maxWidth="xs">
       <Typography component="h1" variant="h5">
       <div>
-        <p>{form.message}</p>
+        <p>{responseMessage}</p>
       </div>
       </Typography>
       <div>

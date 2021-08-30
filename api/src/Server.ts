@@ -35,10 +35,8 @@ const io = new SocketIo(server, {
 });
 
 io.sockets.on('connect', (socket) => {
-  console.log('connect!!');
   socket.on('sendMessage', (message) => {
-    console.log('sendMessage', message);
-    io.emit('spread message', message);
+    io.emit('response message', message);
   })
 });
 
