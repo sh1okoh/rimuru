@@ -14,7 +14,6 @@ export const Chat: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [socket, setSocket] = useState<Socket>(socketClient(''));
   const [response, setResponse] = useState<Response[]>([]);
-  console.log('response message');
   useEffect(() => {
     const socket: Socket = socketClient('http://localhost:3000', {
       withCredentials: true,
@@ -36,6 +35,7 @@ export const Chat: React.FC = () => {
   };
   const sendMessage = () => {
     socket.emit('sendMessage', message);
+    setMessage('');
   }
   const submitOnForm = () => {
     sendMessage();
@@ -72,9 +72,11 @@ export const Chat: React.FC = () => {
           id="standard-text"
           label="メッセージを入力"
           name="message"
+          value={message}
           onChange={ e => handleOnChangeForm(e.target.value)}
+          fullWidth
         />
-        <Button variant="contained" color="primary" onClick={() => submitOnForm()}>
+        <Button variant="contained" color="primary" onClick={() => submitOnForm()} disabled={message === ''}>
           送信
         </Button>
       </form>
