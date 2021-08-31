@@ -1,4 +1,4 @@
-import { Button, Container, Grid, ListItem, ListItemText } from '@material-ui/core';
+import { Button, Container, Grid, ListItem, ListItemText, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography'
@@ -48,6 +48,7 @@ export const Chat: React.FC = () => {
           <Typography variant="h3" className="header-message">Chat</Typography>
         </Grid>
       </Grid>
+      <Paper style={{height: 500, maxHeight: 500, overflow: 'auto'}}>
       <ListItem key="2">
         <Grid container>
           <Grid item xs={12}>
@@ -64,6 +65,7 @@ export const Chat: React.FC = () => {
           </Grid>
         </Grid>
       </ListItem>
+      </Paper>
       <div>
       <form>
         <TextField
