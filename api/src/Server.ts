@@ -34,10 +34,8 @@ const io = new SocketIo(server, {
   cors: { ...corsPropsForSocketIO }
 });
 
-
 io.sockets.on('connect', (socket) => {
   socket.on('sendMessage', (message) => {
-    console.log('message', message);
     const dateTime = new Date().toTimeString();
     io.emit('response message', { message, dateTime } );
   })
