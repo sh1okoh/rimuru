@@ -14,8 +14,6 @@ const { BAD_REQUEST, OK, UNAUTHORIZED } = StatusCodes;
 export async function login(req: Request, res: Response) {
     // Check email and password present
     const { email, password } = req.body;
-    console.log('email', email);
-    console.log('password', password);
 
     if (!(email && password)) {
         return res.status(BAD_REQUEST).json({

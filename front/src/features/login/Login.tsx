@@ -83,7 +83,7 @@ export const Login: React.FC = () => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   autoComplete="email"
                   autoFocus
@@ -109,7 +109,7 @@ export const Login: React.FC = () => {
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                label="保存しますか"
               />
               <Button
                 type="submit"
@@ -123,12 +123,12 @@ export const Login: React.FC = () => {
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
-                    Forgot password?
+                    パスワード忘れた方はこちら
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                    {"会員登録はこちら"}
                   </Link>
                 </Grid>
               </Grid>
