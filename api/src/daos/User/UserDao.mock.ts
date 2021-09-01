@@ -7,20 +7,14 @@ class UserDao extends MockDaoMock implements IUserDao {
 
     public async findByEmail(email: string): Promise<IUser | null> {
         const db = await super.openDb();
-        for (const user of db.users) {
-            if (user.email === email) {
-                return user;
-            }
-        }
-        return null;
+        const result = db.users.filter(user => user.email === email)[0];
+        return result ?? null;
     }
-
 
     public async findAll(): Promise<IUser[]> {
         const db = await super.openDb();
         return db.users;
     }
-
 
     public async add(user: IUser): Promise<void> {
         const db = await super.openDb();
@@ -29,29 +23,28 @@ class UserDao extends MockDaoMock implements IUserDao {
         await super.saveDb(db);
     }
 
-
     public async update(user: IUser): Promise<void> {
         const db = await super.openDb();
-        for (let i = 0; i < db.users.length; i++) {
-            if (db.users[i].id === user.id) {
-                db.users[i] = user;
+        db.users.forEach(async (v, idx) => {
+            if (v.id === user.id) {
+                db.users[idx] = user;
                 await super.saveDb(db);
                 return;
             }
-        }
+        });
         throw new Error('User not found');
     }
 
 
     public async delete(id: number): Promise<void> {
         const db = await super.openDb();
-        for (let i = 0; i < db.users.length; i++) {
-            if (db.users[i].id === id) {
-                db.users.splice(i, 1);
+        db.users.forEach(async (v, idx) => {
+            if (v.id === id) {
+                db.users.slice(idx, 1);
                 await super.saveDb(db);
                 return;
             }
-        }
+        })
         throw new Error('User not found');
     }
 }
