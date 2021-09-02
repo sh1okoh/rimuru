@@ -1,7 +1,6 @@
 import jsonfile from 'jsonfile';
 import { IUser } from '../../entities/User';
 
-
 interface IDatabase {
     users: IUser[];
 }

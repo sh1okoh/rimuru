@@ -1,28 +1,26 @@
+import bcrypt from 'bcrypt';
+import UserDao from '../daos/User/UserDao.mock';
 import { StatusCodes } from 'http-status-codes';
-import { IUser } from 'src/entities/User';
+import { Request, Response } from 'express';
 
-const { BAD_REQUEST } = StatusCodes;
-
-export interface Request  {
-  body: {
-      user: IUser;
-      email: string;
-      password: string;
-      message: string;
-      socketId: string;
-  };
-}
-
-export interface Response {
-  sessionUser: any; 
-}
-
+const userDao = new UserDao();
+const { BAD_REQUEST, OK, UNAUTHORIZED } = StatusCodes;
 
 export async function login(req: Request, res: Response) {
   const { email, password } = req.body;
   if (!(email && password)) {
-    return BAD_REQUEST;
+    return res.status(BAD_REQUEST).json();
   };
 
-  
+  const user = await userDao.findByEmail(email);
+  if (!user) {
+    return res.status(UNAUTHORIZED).json();
+  }
+
+  const pwdPassed = await bcrypt.compare(password, user.pwdHash);
+  if (!pwdPassed) {
+    return res.status(UNAUTHORIZED).json();;
+  }
+
+  return res.status(OK).json();;
 }
