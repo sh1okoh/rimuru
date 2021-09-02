@@ -19,8 +19,8 @@ export async function login(req: Request, res: Response) {
 
   const pwdPassed = await bcrypt.compare(password, user.pwdHash);
   if (!pwdPassed) {
-    return res.status(UNAUTHORIZED).json();;
+    return res.status(UNAUTHORIZED).json();
   }
 
-  return res.status(OK).json();;
+  return res.status(OK).json();
 }

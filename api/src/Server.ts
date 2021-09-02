@@ -1,14 +1,15 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Server as SocketIo } from 'socket.io';
-import StatusCodes from 'http-status-codes';
 import  { cookieProps, corsPropsForSocketIO } from './shared/constants';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import http from 'http';
+import { login } from './routes/login';
+import { Request, Response } from 'express';
+
 const app = express();
-const { BAD_REQUEST, UNAUTHORIZED, OK } = StatusCodes;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,7 +30,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(cors(options));
 
+// Login
+app.post('/login', (req: Request, res: Response) => (login(req, res)));
+
 const server = http.createServer(app);
+
+// Socket IO
 const io = new SocketIo(server, {
   cors: { ...corsPropsForSocketIO }
 });
