@@ -26,7 +26,7 @@ export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
       password: request.password,
     }
     const response = httpPost<unknown>(path, body, thunkApi);
-    // console.log('response', response);
+    console.log('response', response);
     // thunkApi.dispatch(redirectTo('/room'));
 
     return response;

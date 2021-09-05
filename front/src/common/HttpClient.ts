@@ -26,22 +26,21 @@ async function fetchWithErrorHandler(
   return await fetch(input, init).then((response) => handleErrorResponse(response, thunkApi));
 }
 
-export async function httpPost<Body>(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<Body> {
+export async function httpPost<Body>(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<unknown> {
   const url = new URL(path, basePath);
-  console.log('body', JSON.stringify(body));
   const response  = await fetchWithErrorHandler(url.toString(), thunkApi, {
     method: 'POST',
+    mode: 'cors',
     headers: baseHeader,
     body: JSON.stringify(body),
-    mode: 'cors',
   });
   // method: "POST",
   // mode: "cors",
   // credentials: "include",
   // headers: { ...headersBase, "X-CSRF-TOKEN": token },
   // body: JSON.stringify(body),
-  
-  return (await response.json()) as Body;
+  // TODO: これするとapi callがrejectされるので調査
+  return response.json();
 }
 
 export async function httpGet(url: string, params: Record<string, any> = {}, thunkApi: ThunkApi): Promise<Body> {

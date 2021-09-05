@@ -7,6 +7,7 @@ const userDao = new UserDao();
 const { BAD_REQUEST, OK, UNAUTHORIZED } = StatusCodes;
 
 export async function login(req: Request, res: Response) {
+  console.log('req', req);
   const { email, password } = req.body;
   if (!(email && password)) {
     return res.status(BAD_REQUEST).json();
