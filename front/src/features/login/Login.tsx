@@ -15,11 +15,11 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import { Field, Form } from "react-final-form";
+import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../app/hooks';
 import { LoginState } from './interface';
-import { login} from './loginSlice';
-
+import { login, selectLogin } from './loginSlice';
 
 function Copyright() {
   return (
@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
 export const Login: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const { status } = useSelector(selectLogin);
+  console.log('status', status);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

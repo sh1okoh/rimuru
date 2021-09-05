@@ -6,7 +6,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import http from 'http';
-import { login } from './routes/login';
+import { login } from './routes/auth';
 import { Request, Response } from 'express';
 
 const app = express();

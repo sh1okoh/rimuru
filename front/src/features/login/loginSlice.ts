@@ -45,13 +45,14 @@ export const loginSlice = createSlice({
       state.status = 'succeeded';
     });
     builder.addCase(login.rejected, (state, action) => {
+      console.log('action', action);
       state.status = 'failed';
       // console.error(action.error.message);
     })
   }
 });
 
-export const selectState: (state: RootState) => RootState = (state: RootState) => state;
+export const selectLogin: (state: RootState) => LoginState = (state: RootState) => state.login;
 
 export default loginSlice.reducer;
 

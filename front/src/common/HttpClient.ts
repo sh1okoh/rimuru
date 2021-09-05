@@ -28,6 +28,7 @@ async function fetchWithErrorHandler(
 
 export async function httpPost<Body>(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<Body> {
   const url = new URL(path, basePath);
+  console.log('body', JSON.stringify(body));
   const response  = await fetchWithErrorHandler(url.toString(), thunkApi, {
     method: 'POST',
     headers: baseHeader,

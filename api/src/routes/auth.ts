@@ -22,5 +22,9 @@ export async function login(req: Request, res: Response) {
     return res.status(UNAUTHORIZED).json();
   }
 
-  return res.status(OK).json();
+  return res.status(OK).end();
+}
+
+export async function logout(req: Request, res: Response) {
+  return res.status(OK).end();
 }
