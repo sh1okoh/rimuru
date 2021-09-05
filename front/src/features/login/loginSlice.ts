@@ -25,9 +25,9 @@ export const login = createAsyncThunk<unknown, LoginRequest, ThunkApi>(
       email: request.email,
       password: request.password,
     }
-    const response = httpPost(path, body, thunkApi);
-    thunkApi.dispatch(redirectTo('/room'))
-    // thunkApi.dispatch(resetMessage());
+    const response = httpPost<unknown>(path, body, thunkApi);
+    // console.log('response', response);
+    // thunkApi.dispatch(redirectTo('/room'));
 
     return response;
   },
@@ -38,18 +38,15 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state,  action) => {
-      console.log(action);
+    builder.addCase(login.pending, (state) => {
       state.status = 'loading';
     });
-    builder.addCase(login.fulfilled, (state, action) => {
-      console.log(action);
+    builder.addCase(login.fulfilled, (state) => {
       state.status = 'succeeded';
     });
     builder.addCase(login.rejected, (state, action) => {
-      console.log(action);
       state.status = 'failed';
-      console.error(action.error.message);
+      // console.error(action.error.message);
     })
   }
 });

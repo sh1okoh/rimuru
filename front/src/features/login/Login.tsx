@@ -65,7 +65,7 @@ export const Login: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          ログイン
         </Typography>
         <Form<LoginState>
           onSubmit={({email, password}) => {
@@ -75,7 +75,7 @@ export const Login: React.FC = () => {
             <form onSubmit={handleSubmit} className={classes.form} noValidate>
               <Field<string>
                 name="email"
-                render={({input, meta}) => (
+                render={({input}) => (
                   <TextField
                   {...input}
                   variant="outlined"
@@ -92,7 +92,7 @@ export const Login: React.FC = () => {
               />
               <Field<string>
                 name="password"
-                render={({ input, meta }) => (
+                render={({ input }) => (
                   <TextField
                   {...input}
                   variant="outlined"
@@ -118,7 +118,7 @@ export const Login: React.FC = () => {
                 color="primary"
                 className={classes.submit}
               >
-                Sign In
+                ログイン
               </Button>
               <Grid container>
                 <Grid item xs>

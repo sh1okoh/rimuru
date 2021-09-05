@@ -26,15 +26,21 @@ async function fetchWithErrorHandler(
   return await fetch(input, init).then((response) => handleErrorResponse(response, thunkApi));
 }
 
-export async function httpPost(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<Body> {
-  const url = new URL(basePath+path);
+export async function httpPost<Body>(path: string, body: Record<string, unknown>, thunkApi: ThunkApi): Promise<Body> {
+  const url = new URL(path, basePath);
   const response  = await fetchWithErrorHandler(url.toString(), thunkApi, {
     method: 'POST',
     headers: baseHeader,
     body: JSON.stringify(body),
     mode: 'cors',
-  })
-  return response;
+  });
+  // method: "POST",
+  // mode: "cors",
+  // credentials: "include",
+  // headers: { ...headersBase, "X-CSRF-TOKEN": token },
+  // body: JSON.stringify(body),
+  
+  return (await response.json()) as Body;
 }
 
 export async function httpGet(url: string, params: Record<string, any> = {}, thunkApi: ThunkApi): Promise<Body> {
